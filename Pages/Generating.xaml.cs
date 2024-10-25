@@ -9,12 +9,10 @@ using System.Windows.Controls;
 
 namespace RecursiveAlgorithms.Pages
 {
-    /// <summary>
-    /// Interaction logic for Generating.xaml
-    /// </summary>
     public partial class Generating : Page
     {
         public static int TowerHeight { get; set; }
+        public static int FractalDepth { get; set; }
         public static bool IsHanoi { get; set; }
 
         private static List<Move> moves;

@@ -26,26 +26,40 @@ namespace RecursiveAlgorithms.Pages
             GC.Collect();
         }
 
-        private void PlayPauseButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void PlayPauseButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             FractalCanvas.Children.Clear();
-            Draw(FractalCreator._depth);
+
+            if ((bool)Binary.IsChecked)
+            {
+                await DrawBinary(Generating.FractalDepth);
+            }
+            else
+            {
+                await DrawPythagoras(Generating.FractalDepth);
+            }
         }
 
-        public void Draw(int depth)
+        public async Task DrawBinary(int depth)
         {
             double height = FractalCanvas.ActualHeight;
             double width = FractalCanvas.ActualWidth;
 
             Point pointStart = new Point(width / 2, 0);
 
-            var fractal = new FractalCreator(pointStart, depth, width / 2, height);
-            var lines = fractal.GetLines();
+            var fractal = new BinaryTree(FractalCanvas);
+            await fractal.DrawTree(pointStart, depth, width/2, height);
+        }
 
-            foreach (var line in lines)
-            {
-                FractalCanvas.Children.Add(line);
-            }
+        public async Task DrawPythagoras(int depth)
+        {
+            double height = FractalCanvas.ActualHeight;
+            double width = FractalCanvas.ActualWidth;
+
+            Point pointStart = new Point(width / 2, height);
+
+            var fractal = new PythagorasTree(FractalCanvas);
+            await fractal.DrawTree(pointStart, -Math.PI / 2, depth, 100);
         }
     }
 }

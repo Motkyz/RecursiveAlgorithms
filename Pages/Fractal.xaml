@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       d:DesignHeight="500" d:DesignWidth="800"
-      Title="Tower"
+      Title="Fractal"
       DataContext="{Binding ElementName=FractalPage}">
     <Page.Style>
         <Style TargetType="Page">
@@ -16,7 +16,7 @@
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition MinHeight="300" />
             <RowDefinition Height="135" />
         </Grid.RowDefinitions>
@@ -30,18 +30,31 @@
             <Canvas x:Name="FractalCanvas" Width="800" Height="329" />
         </Viewbox>
 
-        <Grid x:Name="ControlsGrid" Margin="220,21,220,22" RenderTransformOrigin="0.489,0.583" Grid.Row="2" HorizontalAlignment="Center">
+        <Grid x:Name="ControlsGrid" RenderTransformOrigin="0.489,0.583" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="20*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="PlayPauseButtonF" Grid.Row="1" Grid.Column="1" Click="PlayPauseButton_Click" HorizontalAlignment="Center" Style="{StaticResource ControlButtons}">
+            <Button x:Name="PlayPauseButtonF" Grid.Row="0" Grid.Column="1" Click="PlayPauseButton_Click" Style="{StaticResource ControlButtons}" Margin="0,0,0,0" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
                 &#x25B6;
                 <Button.ToolTip>Play</Button.ToolTip>
             </Button>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <RadioButton x:Name="Binary" Content="Binary tree" GroupName="FracMode" Grid.Row="0" Margin="0,0,10,0" 
+                             VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True" />
+                <RadioButton x:Name="Pythagoras" Content="Pythagoras tree" GroupName="FracMode" Grid.Row="1" Margin="0,0,10,0" 
+                             VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            </Grid>
         </Grid>
+
     </Grid>
 </Page>

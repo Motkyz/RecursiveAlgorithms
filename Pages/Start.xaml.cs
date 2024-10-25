@@ -40,7 +40,7 @@ namespace RecursiveAlgorithms
                     return;
                 }
 
-                FractalCreator._depth = depth;
+                Generating.FractalDepth = depth;
             }
 
             _ = NavigationService.Navigate(new Uri("/Pages/Generating.xaml", UriKind.Relative));
