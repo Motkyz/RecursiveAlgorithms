@@ -15,17 +15,21 @@ namespace RecursiveAlgorithms.Utils
     {
         private readonly Canvas _canvas;
         private readonly int _lvls;
+        private readonly Func<int> _getDelay;
 
         private const double maxThick = 2;
 
-        public BinaryTree(Canvas canvas)
+        public BinaryTree(Canvas canvas, Func<int> getDelay)
         {
             _canvas = canvas;
             _lvls = Generating.FractalDepth;
+            _getDelay = getDelay;
         }
 
-        public async Task DrawTree(Point pointStart, int depth, double width, double height)
+        public async Task DrawTree(Point pointStart, int depth, double width, double height, CancellationToken cancellationToken)
         {
+            if (depth == 0 || cancellationToken.IsCancellationRequested) return;
+
             double xOffset = width / 2;
             double yOffset = height / _lvls;
 
@@ -35,19 +39,17 @@ namespace RecursiveAlgorithms.Utils
             Point pointEnd2 = new Point(pointStart.X + xOffset, pointStart.Y + yOffset);
 
             DrawBranch(pointStart, pointEnd1, thickness);
-            DrawBranch(pointStart, pointEnd2 , thickness);
+            DrawBranch(pointStart, pointEnd2, thickness);
 
-            await Task.Delay(1);
+            await Task.Delay(_getDelay(), cancellationToken);
 
-            if (depth != 1)
-            {
-                await DrawTree(pointEnd1, depth - 1, width / 2, height);
-                await DrawTree(pointEnd2, depth - 1, width / 2, height);
-            }
+            await DrawTree(pointEnd1, depth - 1, width / 2, height, cancellationToken);
+            await DrawTree(pointEnd2, depth - 1, width / 2, height, cancellationToken);
+
         }
         void DrawBranch(Point pointStart, Point pointEnd, double thickness)
         {
-            Line line = (new Line()
+            Line line = new Line()
             {
                 X1 = pointStart.X,
                 Y1 = pointStart.Y,
@@ -55,7 +57,7 @@ namespace RecursiveAlgorithms.Utils
                 Y2 = pointEnd.Y,
                 StrokeThickness = thickness,
                 Stroke = Brushes.Red
-            });
+            };
 
             _canvas.Children.Add(line);
         }

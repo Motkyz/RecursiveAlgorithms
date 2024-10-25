@@ -13,25 +13,27 @@ namespace RecursiveAlgorithms.Utils
     public class PythagorasTree
     {
         private readonly Canvas _canvas;
+        private readonly Func<int> _getDelay;
 
-        public PythagorasTree(Canvas canvas)
+        public PythagorasTree(Canvas canvas, Func<int> getDelay)
         {
             _canvas = canvas;
+            _getDelay = getDelay;
         }
 
-        public async Task DrawTree(Point pointStart, double angle, int depth, double length)
+        public async Task DrawTree(Point pointStart, double angle, int depth, double length, CancellationToken cancellationToken)
         {
+            if (depth == 0 || cancellationToken.IsCancellationRequested) return;
+
             Point pointEnd = new Point(pointStart.X + length * Math.Cos(angle), pointStart.Y + length * Math.Sin(angle));
 
             DrawBranch(pointStart, pointEnd);
 
-            await Task.Delay(1);
+            await Task.Delay(_getDelay(), cancellationToken);
 
-            if (depth > 0)
-            {
-                await DrawTree(pointEnd, angle - Math.PI / 4, depth - 1, length * 0.75);
-                await DrawTree(pointEnd, angle + Math.PI / 4, depth - 1, length * 0.75);
-            }
+            await DrawTree(pointEnd, angle - Math.PI / 4, depth - 1, length * 0.75, cancellationToken);
+            await DrawTree(pointEnd, angle + Math.PI / 4, depth - 1, length * 0.75, cancellationToken);
+
         }
 
         private void DrawBranch(Point pointStart, Point pointEnd)

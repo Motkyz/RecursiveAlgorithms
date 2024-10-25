@@ -29,31 +29,50 @@
         <Viewbox Grid.Row="1">
             <Canvas x:Name="FractalCanvas" Width="800" Height="329" />
         </Viewbox>
-
+        
+        
         <Grid x:Name="ControlsGrid" RenderTransformOrigin="0.489,0.583" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20*"/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal" Margin="5" Grid.ColumnSpan="3">
+                <TextBlock  FontSize="16" Text="Delay:" Margin="0,0,5,0"/>
 
-            <Button x:Name="PlayPauseButtonF" Grid.Row="0" Grid.Column="1" Click="PlayPauseButton_Click" Style="{StaticResource ControlButtons}" Margin="0,0,0,0" 
-                    HorizontalAlignment="Center" VerticalAlignment="Center">
-                &#x25B6;
-                <Button.ToolTip>Play</Button.ToolTip>
-            </Button>
-            <Grid Grid.Row="0" Grid.Column="0">
+                <Slider x:Name="DelaySlider" Minimum="0" Maximum="100" Value="5" Width="200" 
+                        TickFrequency="1" IsSnapToTickEnabled="True" />
+
+                <TextBlock FontSize="16" Text="{Binding ElementName=DelaySlider, Path=Value, StringFormat='{}{0} ms'}" Margin="10,0,0,0"/>
+            </StackPanel>
+            
+            <Grid Grid.Row="1" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+
                 <RadioButton x:Name="Binary" Content="Binary tree" GroupName="FracMode" Grid.Row="0" Margin="0,0,10,0" 
                              VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="True" />
                 <RadioButton x:Name="Pythagoras" Content="Pythagoras tree" GroupName="FracMode" Grid.Row="1" Margin="0,0,10,0" 
                              VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Grid>
+
+            <Button x:Name="StartButton" Grid.Row="1" Grid.Column="1" Click="StartButton_Click" Style="{StaticResource ControlButtons}" Margin="0,0,0,0" 
+        HorizontalAlignment="Center" VerticalAlignment="Center">
+                &#x25B6;
+                <Button.ToolTip>Play</Button.ToolTip>
+            </Button>
+
+            <Button x:Name="StopButton" Grid.Row="1" Grid.Column="2" Click="StopButton_Click" Style="{StaticResource ControlButtons}" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                &#9209;
+            </Button>
         </Grid>
 
     </Grid>
