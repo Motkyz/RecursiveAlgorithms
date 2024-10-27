@@ -12,7 +12,6 @@ namespace RecursiveAlgorithms.Pages
     public partial class Generating : Page
     {
         public static int TowerHeight { get; set; }
-        public static int FractalDepth { get; set; }
         public static bool IsHanoi { get; set; }
 
         private static List<Move> moves;
@@ -41,7 +40,7 @@ namespace RecursiveAlgorithms.Pages
                 }
                 else
                 {
-                    _ = NavigationService.Navigate(new Uri("/Pages/Fractal.xaml", UriKind.Relative));
+                    _ = NavigationService.Navigate(new Uri("/Pages/FractalsPage.xaml", UriKind.Relative));
                 }
             }
             catch (Exception ex)

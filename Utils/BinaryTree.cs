@@ -7,23 +7,17 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Controls;
-using RecursiveAlgorithms.Pages;
 
 namespace RecursiveAlgorithms.Utils
 {
-    public class BinaryTree
+    public class BinaryTree : Fractal
     {
-        private readonly Canvas _canvas;
         private readonly int _lvls;
-        private readonly Func<int> _getDelay;
-
         private const double maxThick = 2;
 
-        public BinaryTree(Canvas canvas, Func<int> getDelay)
+        public BinaryTree(Canvas canvas, Func<int> getDelay) : base(canvas, getDelay)
         {
-            _canvas = canvas;
-            _lvls = Generating.FractalDepth;
-            _getDelay = getDelay;
+            _lvls = Depth;
         }
 
         public async Task DrawTree(Point pointStart, int depth, double width, double height, CancellationToken cancellationToken)
@@ -38,28 +32,13 @@ namespace RecursiveAlgorithms.Utils
             Point pointEnd1 = new Point(pointStart.X - xOffset, pointStart.Y + yOffset);
             Point pointEnd2 = new Point(pointStart.X + xOffset, pointStart.Y + yOffset);
 
-            DrawBranch(pointStart, pointEnd1, thickness);
-            DrawBranch(pointStart, pointEnd2, thickness);
+            DrawLine(pointStart, pointEnd1, thickness, Brushes.Red);
+            DrawLine(pointStart, pointEnd2, thickness, Brushes.Red);
 
-            await Task.Delay(_getDelay(), cancellationToken);
+            await Task.Delay(GetDelay(), cancellationToken);
 
             await DrawTree(pointEnd1, depth - 1, width / 2, height, cancellationToken);
             await DrawTree(pointEnd2, depth - 1, width / 2, height, cancellationToken);
-
-        }
-        void DrawBranch(Point pointStart, Point pointEnd, double thickness)
-        {
-            Line line = new Line()
-            {
-                X1 = pointStart.X,
-                Y1 = pointStart.Y,
-                X2 = pointEnd.X,
-                Y2 = pointEnd.Y,
-                StrokeThickness = thickness,
-                Stroke = Brushes.Red
-            };
-
-            _canvas.Children.Add(line);
         }
     }
 }

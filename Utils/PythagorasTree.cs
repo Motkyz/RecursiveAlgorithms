@@ -10,45 +10,22 @@ using System.Windows.Shapes;
 
 namespace RecursiveAlgorithms.Utils
 {
-    public class PythagorasTree
+    public class PythagorasTree : Fractal
     {
-        private readonly Canvas _canvas;
-        private readonly Func<int> _getDelay;
+        public PythagorasTree(Canvas canvas, Func<int> getDelay) : base(canvas, getDelay) { }
 
-        public PythagorasTree(Canvas canvas, Func<int> getDelay)
-        {
-            _canvas = canvas;
-            _getDelay = getDelay;
-        }
-
-        public async Task DrawTree(Point pointStart, double angle, int depth, double length, CancellationToken cancellationToken)
+        public async Task DrawTree(Point pointStart, double length, double angle, int depth, CancellationToken cancellationToken)
         {
             if (depth == 0 || cancellationToken.IsCancellationRequested) return;
 
             Point pointEnd = new Point(pointStart.X + length * Math.Cos(angle), pointStart.Y + length * Math.Sin(angle));
 
-            DrawBranch(pointStart, pointEnd);
+            DrawLine(pointStart, pointEnd, 2, Brushes.Blue);
 
-            await Task.Delay(_getDelay(), cancellationToken);
+            await Task.Delay(GetDelay(), cancellationToken);
 
-            await DrawTree(pointEnd, angle - Math.PI / 4, depth - 1, length * 0.75, cancellationToken);
-            await DrawTree(pointEnd, angle + Math.PI / 4, depth - 1, length * 0.75, cancellationToken);
-
-        }
-
-        private void DrawBranch(Point pointStart, Point pointEnd)
-        {
-            Line line = new Line
-            {
-                X1 = pointStart.X,
-                Y1 = pointStart.Y,
-                X2 = pointEnd.X,
-                Y2 = pointEnd.Y,
-                Stroke = Brushes.Green,
-                StrokeThickness = 2
-            };
-
-            _canvas.Children.Add(line);
+            await DrawTree(pointEnd, length * 0.75, angle - Math.PI / 4, depth - 1, cancellationToken);
+            await DrawTree(pointEnd, length * 0.75, angle + Math.PI / 4, depth - 1, cancellationToken);
         }
     }
 }

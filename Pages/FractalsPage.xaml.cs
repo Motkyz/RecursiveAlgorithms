@@ -8,17 +8,19 @@ using System.Windows.Controls;
 using System.Windows;
 using RecursiveAlgorithms.Utils;
 using System.Threading;
+using System.Windows.Media;
 
 namespace RecursiveAlgorithms.Pages
 {
-    public partial class Fractal : Page
+    public partial class FractalsPage : Page
     {
         private CancellationTokenSource _cancellationTokenSource;
         public bool IsGenerationEnabled => _cancellationTokenSource == null || _cancellationTokenSource.IsCancellationRequested;
 
-        public Fractal()
+        public FractalsPage()
         {
             InitializeComponent();
+            DepthInput.Text = Fractal.Depth.ToString();
         }
 
         private void BackToStartPageButton_Click(object sender, RoutedEventArgs e)
@@ -31,7 +33,16 @@ namespace RecursiveAlgorithms.Pages
 
         private async void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            FractalCanvas.Children.Clear();
+            Canvas.Children.Clear();
+
+            if (!int.TryParse(DepthInput.Text, out int depth) || depth < 1)
+            {
+                _ = MessageBox.Show(Window.GetWindow(this), "Depth of FractalsPage is invalid!", "",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            Fractal.Depth = depth;
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -41,11 +52,15 @@ namespace RecursiveAlgorithms.Pages
             {
                 if ((bool)Binary.IsChecked)
                 {
-                    await DrawBinary(Generating.FractalDepth, _cancellationTokenSource.Token);
+                    await DrawBinaryTree(_cancellationTokenSource.Token);
+                }
+                else if ((bool)Pythagoras.IsChecked)
+                {
+                    await DrawPythagorasTree(_cancellationTokenSource.Token);
                 }
                 else
                 {
-                    await DrawPythagoras(Generating.FractalDepth, _cancellationTokenSource.Token);
+                    await DrawBarnsliFern(_cancellationTokenSource.Token);
                 }
             }
 
@@ -63,32 +78,34 @@ namespace RecursiveAlgorithms.Pages
             _cancellationTokenSource?.Cancel();
         }
 
-        public async Task DrawBinary(int depth, CancellationToken cancellationToken)
+        public async Task DrawBinaryTree(CancellationToken cancellationToken)
         {
-            double height = FractalCanvas.ActualHeight;
-            double width = FractalCanvas.ActualWidth;
-
-            Point pointStart = new Point(width / 2, 0);
-
-            var fractal = new BinaryTree(FractalCanvas, () => (int)DelaySlider.Value);
+            var fractal = new BinaryTree(Canvas, () => (int)DelaySlider.Value);
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            await fractal.DrawTree(pointStart, depth, width / 2, height, cancellationToken);
+            Point pointStart = new Point(Canvas.ActualWidth / 2, 0);
+            await fractal.DrawTree(pointStart, Fractal.Depth, Canvas.ActualWidth / 2, Canvas.ActualHeight, cancellationToken);
         }
 
-        public async Task DrawPythagoras(int depth, CancellationToken cancellationToken)
+        public async Task DrawPythagorasTree(CancellationToken cancellationToken)
         {
-            double height = FractalCanvas.ActualHeight;
-            double width = FractalCanvas.ActualWidth;
-
-            Point pointStart = new Point(width / 2, height);
-
-            var fractal = new PythagorasTree(FractalCanvas, () => (int)DelaySlider.Value);
+            var fractal = new PythagorasTree(Canvas, () => (int)DelaySlider.Value);
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            await fractal.DrawTree(pointStart, -Math.PI / 2, depth, 100, cancellationToken);
+            Point pointStart = new Point(Canvas.ActualWidth / 2, Canvas.ActualHeight);
+            await fractal.DrawTree(pointStart, 100, -Math.PI / 2, Fractal.Depth, cancellationToken);
+        }
+
+        public async Task DrawBarnsliFern(CancellationToken cancellationToken)
+        {
+            var fractal = new BarnsliFern(Canvas, () => (int)DelaySlider.Value);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            Point pointStart = new Point(Canvas.ActualWidth / 2, Canvas.ActualHeight);
+            await fractal.DrawFern(pointStart, Fractal.Depth * 10, Math.PI / 2, cancellationToken);
         }
 
         private void NotifyPropertyChanged(string propertyName)

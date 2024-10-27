@@ -35,12 +35,12 @@ namespace RecursiveAlgorithms
             {
                 if (!int.TryParse(FractalDepthTextBox.Text, out int depth) || depth < 1)
                 {
-                    _ = MessageBox.Show(Window.GetWindow(this), "Depth of Fractal is invalid!", "",
+                    _ = MessageBox.Show(Window.GetWindow(this), "Depth of FractalsPage is invalid!", "",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                Generating.FractalDepth = depth;
+                Fractal.Depth = depth;
             }
 
             _ = NavigationService.Navigate(new Uri("/Pages/Generating.xaml", UriKind.Relative));
