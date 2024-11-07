@@ -9,16 +9,15 @@ using System.Windows.Controls;
 
 namespace RecursiveAlgorithms.Pages
 {
-    public partial class Generating : Page
+    public partial class HanoiGenerating : Page
     {
         public static int TowerHeight { get; set; }
-        public static bool IsHanoi { get; set; }
 
-        private static List<Move> moves;
+        private static List<Move> moves = new List<Move>();
 
         private readonly CancellationTokenSource cts = new CancellationTokenSource();
 
-        public Generating()
+        public HanoiGenerating()
         {
             InitializeComponent();
             Loaded += Generating_Loaded;
@@ -30,18 +29,12 @@ namespace RecursiveAlgorithms.Pages
 
             try
             {
-                if (IsHanoi)
-                {
-                    await Task.Run(async () =>
-                        await HanoiLogic.SolveHanoi(HanoiLogic.Peg.P1, HanoiLogic.Peg.P2, HanoiLogic.Peg.P3, TowerHeight, moves, cts.Token)
-                        );
-                    Tower.Moves = new ReadOnlyCollection<Move>(moves);
-                    _ = NavigationService.Navigate(new Uri("/Pages/Towers.xaml", UriKind.Relative));
-                }
-                else
-                {
-                    _ = NavigationService.Navigate(new Uri("/Pages/FractalsPage.xaml", UriKind.Relative));
-                }
+                await Task.Run(async () =>
+                    await HanoiLogic.SolveHanoi(HanoiLogic.Peg.P1, HanoiLogic.Peg.P2, HanoiLogic.Peg.P3, TowerHeight, moves, cts.Token)
+                    );
+                HanoiPage.Moves = new ReadOnlyCollection<Move>(moves);
+
+                _ = NavigationService.Navigate(new Uri("/Pages/Towers.xaml", UriKind.Relative));
             }
             catch (Exception ex)
             {
@@ -58,7 +51,7 @@ namespace RecursiveAlgorithms.Pages
                 NavigationService.GoBack();
             }
 
-            moves = null;
+            moves = new List<Move>();
             Content = null;
             GC.Collect();
         }

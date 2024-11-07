@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace RecursiveAlgorithms.Pages
 {
-    public partial class Tower
+    public partial class HanoiPage
     {
         /// <summary>
         /// Maximum height of disks.

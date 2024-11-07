@@ -27,7 +27,7 @@
         </TextBlock>
 
         <Grid Grid.Row="1" HorizontalAlignment="Center">
-            <RadioButton x:Name="StandardRadio" GroupName="Type"
+            <RadioButton x:Name="Hanoi" GroupName="Type"
                 VerticalContentAlignment="Center"  FontSize="18" Content="Hanoi:" IsChecked="True" Margin="0,16,82,0" />
             <TextBox x:Name="DisksCountTextBox" HorizontalAlignment="Left" TextAlignment="Center" Width="68" MaxLength="2" FontSize="16" KeyDown="DisksCountTextBox_KeyDown" Margin="97,22,0,6" />
             <Label FontSize="10" Content="height" HorizontalAlignment="Left" Height="24" Margin="112,0,0,0" VerticalAlignment="Top" Width="41"/>

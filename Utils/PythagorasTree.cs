@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace RecursiveAlgorithms.Utils
 {
@@ -20,7 +19,7 @@ namespace RecursiveAlgorithms.Utils
 
             Point pointEnd = new Point(pointStart.X + length * Math.Cos(angle), pointStart.Y + length * Math.Sin(angle));
 
-            DrawLine(pointStart, pointEnd, 2, Brushes.Blue);
+            await CreateLine(pointStart, pointEnd, 2, Brushes.Blue);
 
             await Task.Delay(GetDelay(), cancellationToken);
 

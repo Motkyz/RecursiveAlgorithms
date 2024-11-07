@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static RecursiveAlgorithms.Utils.HanoiLogic;
 using System.Windows.Controls;
 using System.Windows;
 using RecursiveAlgorithms.Utils;
-using System.Threading;
-using System.Windows.Media;
 
 namespace RecursiveAlgorithms.Pages
 {
     public partial class FractalsPage : Page
     {
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource? _cancellationTokenSource;
         public bool IsGenerationEnabled => _cancellationTokenSource == null || _cancellationTokenSource.IsCancellationRequested;
 
         public FractalsPage()
@@ -25,7 +22,6 @@ namespace RecursiveAlgorithms.Pages
 
         private void BackToStartPageButton_Click(object sender, RoutedEventArgs e)
         {
-            _ = NavigationService.RemoveBackEntry();
             NavigationService.GoBack();
             Content = null;
             GC.Collect();
@@ -37,7 +33,7 @@ namespace RecursiveAlgorithms.Pages
 
             if (!int.TryParse(DepthInput.Text, out int depth) || depth < 1)
             {
-                _ = MessageBox.Show(Window.GetWindow(this), "Depth of FractalsPage is invalid!", "",
+                _ = MessageBox.Show(Window.GetWindow(this), "Depth of fractal is invalid!", "",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -50,11 +46,11 @@ namespace RecursiveAlgorithms.Pages
 
             try
             {
-                if ((bool)Binary.IsChecked)
+                if (Binary.IsChecked == true)
                 {
                     await DrawBinaryTree(_cancellationTokenSource.Token);
                 }
-                else if ((bool)Pythagoras.IsChecked)
+                else if (Pythagoras.IsChecked == true)
                 {
                     await DrawPythagorasTree(_cancellationTokenSource.Token);
                 }
@@ -73,6 +69,7 @@ namespace RecursiveAlgorithms.Pages
                 NotifyPropertyChanged(nameof(IsGenerationEnabled));
             }
         }
+
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             _cancellationTokenSource?.Cancel();

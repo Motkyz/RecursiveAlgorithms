@@ -7,9 +7,6 @@ using RecursiveAlgorithms.Pages;
 
 namespace RecursiveAlgorithms
 {
-    /// <summary>
-    /// Interaction logic for Start.xaml
-    /// </summary>
     public partial class Start : Page
     {
         public Start()
@@ -19,31 +16,32 @@ namespace RecursiveAlgorithms
 
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((bool)StandardRadio.IsChecked)
+            if (Hanoi.IsChecked == true)
             {
                 if (!int.TryParse(DisksCountTextBox.Text, out int height) || height < 1)
                 {
-                    _ = MessageBox.Show(Window.GetWindow(this), "Height of Tower is invalid!", "",
+                    _ = MessageBox.Show(Window.GetWindow(this), "Height of tower is invalid!", "",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                Generating.TowerHeight = height;
-                Generating.IsHanoi = (bool)StandardRadio.IsChecked;
+                HanoiGenerating.TowerHeight = height;
+
+                _ = NavigationService.Navigate(new Uri("/Pages/HanoiGenerating.xaml", UriKind.Relative));
             }
             else
             {
                 if (!int.TryParse(FractalDepthTextBox.Text, out int depth) || depth < 1)
                 {
-                    _ = MessageBox.Show(Window.GetWindow(this), "Depth of FractalsPage is invalid!", "",
+                    _ = MessageBox.Show(Window.GetWindow(this), "Depth of fractal is invalid!", "",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 Fractal.Depth = depth;
-            }
 
-            _ = NavigationService.Navigate(new Uri("/Pages/Generating.xaml", UriKind.Relative));
+                _ = NavigationService.Navigate(new Uri("/Pages/FractalsPage.xaml", UriKind.Relative));
+            } 
         }
 
         private void DisksCountTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

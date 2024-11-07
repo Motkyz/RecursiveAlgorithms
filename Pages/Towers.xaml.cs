@@ -8,16 +8,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using static RecursiveAlgorithms.Utils.HanoiLogic;
 
 namespace RecursiveAlgorithms.Pages
 {
-    /// <summary>
-    /// Interaction logic for Tower.xaml
-    /// </summary>
-    public partial class Tower : Page, INotifyPropertyChanged
+    public partial class HanoiPage : Page, INotifyPropertyChanged
     {
-        public Tower()
+        public HanoiPage()
         {
             Loaded += Tower_Loaded;
             InitializeComponent();
@@ -76,7 +72,7 @@ namespace RecursiveAlgorithms.Pages
             double MinDiskWidth = PegsWidth * 3;
             double MaxTotalDisksHeight = PegsHeight - FloorHeight - 15;
 
-            int height = Generating.TowerHeight;
+            int height = HanoiGenerating.TowerHeight;
 
             int disksCount = height;
 
@@ -115,7 +111,6 @@ namespace RecursiveAlgorithms.Pages
 
         private void BackToStartPageButton_Click(object sender, RoutedEventArgs e)
         {
-            Generating.IsHanoi = false;
             PlayCTS.Cancel();
             Moves = null;
             NavigationService.GoBack();

@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System.Threading;
 
 namespace RecursiveAlgorithms.Utils
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public class BarnsliFern : Fractal
     {
         private readonly double _ratio;
@@ -31,7 +21,7 @@ namespace RecursiveAlgorithms.Utils
                 double y = Math.Round(pointStart.Y - length * _ratio * Math.Sin(angle));
                 Point pointEnd = new Point(x, y);
 
-                DrawLine(pointStart, pointEnd, 3, Brushes.Green);
+                await CreateLine(pointStart, pointEnd, 3, Brushes.Green);
 
                 await Task.Delay(GetDelay(), cancellationToken);
 

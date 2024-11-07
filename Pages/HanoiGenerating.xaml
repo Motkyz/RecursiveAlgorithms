@@ -1,4 +1,4 @@
-<Page x:Class="RecursiveAlgorithms.Pages.Generating"
+<Page x:Class="RecursiveAlgorithms.Pages.HanoiGenerating"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

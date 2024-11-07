@@ -22,19 +22,30 @@ namespace RecursiveAlgorithms.Utils
             GetDelay = getDelay;
         }
 
-        protected void DrawLine(Point pointStart, Point pointEnd, double thickness, Brush color)
+        protected async Task CreateLine(Point pointStart, Point pointEnd, double thickness, Brush color)
         {
-            Line line = new Line()
-            {
-                X1 = pointStart.X,
-                Y1 = pointStart.Y,
-                X2 = pointEnd.X,
-                Y2 = pointEnd.Y,
-                Stroke = color,
-                StrokeThickness = thickness
-            };
+            await Task.Run(async () =>
+                await DrawLine(pointStart, pointEnd, thickness, color));
+        }
 
-            Canvas.Children.Add(line);
+        private Task DrawLine(Point pointStart, Point pointEnd, double thickness, Brush color)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Line line = new Line()
+                {
+                    X1 = pointStart.X,
+                    Y1 = pointStart.Y,
+                    X2 = pointEnd.X,
+                    Y2 = pointEnd.Y,
+                    Stroke = color,
+                    StrokeThickness = thickness
+                };
+
+                Canvas.Children.Add(line);
+            });
+
+            return Task.CompletedTask;
         }
     }
 }

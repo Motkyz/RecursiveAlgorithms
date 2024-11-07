@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -32,8 +31,8 @@ namespace RecursiveAlgorithms.Utils
             Point pointEnd1 = new Point(pointStart.X - xOffset, pointStart.Y + yOffset);
             Point pointEnd2 = new Point(pointStart.X + xOffset, pointStart.Y + yOffset);
 
-            DrawLine(pointStart, pointEnd1, thickness, Brushes.Red);
-            DrawLine(pointStart, pointEnd2, thickness, Brushes.Red);
+            await CreateLine(pointStart, pointEnd1, thickness, Brushes.Red);
+            await CreateLine(pointStart, pointEnd2, thickness, Brushes.Red);
 
             await Task.Delay(GetDelay(), cancellationToken);
 

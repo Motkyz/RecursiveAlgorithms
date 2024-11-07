@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace RecursiveAlgorithms.Utils
 {
-    /// <summary>
-    /// Provides methods to solve Standard and Extended Tower of Hanoi.
-    /// </summary>
     public static class HanoiLogic
     {
         /// <summary>
